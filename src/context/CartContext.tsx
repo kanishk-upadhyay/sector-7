@@ -2,6 +2,10 @@ import { createContext, useContext, useState, useEffect, ReactNode } from 'react
 import { Product } from '@/lib/api';
 import { toast } from "sonner"
 
+/**
+ * Cart Item Interface
+ * Extends the basic Product interface to include quantity for cart management.
+ */
 export interface CartItem extends Product {
     quantity: number;
 }
@@ -18,6 +22,15 @@ interface CartContextType {
 
 const CartContext = createContext<CartContextType | undefined>(undefined);
 
+/**
+ * CartProvider Component
+ * 
+ * Manages the global shopping cart state using React Context.
+ * Handles persistence to localStorage ('cart-storage') and provides methods
+ * for adding, removing, and updating items.
+ * 
+ * @param children - Child components that will have access to the cart context
+ */
 export function CartProvider({ children }: { children: ReactNode }) {
     const [items, setItems] = useState<CartItem[]>(() => {
         // Load from local storage if available
@@ -34,10 +47,16 @@ export function CartProvider({ children }: { children: ReactNode }) {
         return [];
     });
 
+    // Persist cart to localStorage whenever items change
     useEffect(() => {
         localStorage.setItem('cart-storage', JSON.stringify(items));
     }, [items]);
 
+    /**
+     * Adds a product to the cart.
+     * If the item already exists, it increments the quantity.
+     * Triggers a toast notification on success.
+     */
     const addItem = (product: Product) => {
         setItems(prev => {
             const existing = prev.find(item => item.id === product.id);
@@ -53,10 +72,17 @@ export function CartProvider({ children }: { children: ReactNode }) {
         toast.success(`Added ${product.name} to requisition list`);
     };
 
+    /**
+     * Removes an item completely from the cart.
+     */
     const removeItem = (productId: string) => {
         setItems(prev => prev.filter(item => item.id !== productId));
     };
 
+    /**
+     * Updates the quantity of a specific item.
+     * If quantity reaches 0 or less, the item is removed.
+     */
     const updateQuantity = (productId: string, quantity: number) => {
         if (quantity <= 0) {
             removeItem(productId);
@@ -83,6 +109,14 @@ export function CartProvider({ children }: { children: ReactNode }) {
     );
 }
 
+/**
+ * Custom Hook: useCart
+ * 
+ * Provides direct access to the cart context values and methods.
+ * Must be used within a CartProvider component.
+ * 
+ * @throws Error if used outside of CartProvider
+ */
 export function useCart() {
     const context = useContext(CartContext);
     if (context === undefined) {

@@ -1,3 +1,8 @@
+/**
+ * Main Navigation Configuration
+ * Defines the structure of the header menu.
+ * Supports nested items for dropdown menus (mega-menu style).
+ */
 export const HEADER_LINKS = [
     {
         title: "Guns",

@@ -5,6 +5,17 @@ import { Skeleton } from "@/components/ui/skeleton"
 import { Link } from "react-router-dom"
 import { useCart } from "@/context/CartContext"
 
+/**
+ * ProductCard Component
+ * 
+ * Displays a single product in a grid layout.
+ * Features:
+ * - High-quality image display with hover zoom effect.
+ * - Product price and category.
+ * - "Add to Requisition" button integrated with CartContext.
+ * 
+ * @param product - The product data object to display.
+ */
 export function ProductCard({ product }: { product: Product }) {
     const { addItem } = useCart();
 

@@ -1,13 +1,32 @@
+/**
+ * Product Data Definition
+ * Represents a single item in the store inventory.
+ */
 export interface Product {
     id: string;
+    /** Display name of the product */
     name: string;
+    /** Category for filtering (e.g., Handguns, Rifles) */
     category: string;
+    /** Price in USD */
     price: number;
+    /** URL to high-res product image */
     image: string;
+    /** Short product description or specs */
     description: string;
+    /** Optional external link to source */
     link?: string;
 }
 
+/**
+ * Static Product Catalog
+ * Sourced from Impact Guns. ID prefix indicates category:
+ * - hg: Handguns
+ * - rf: Rifles
+ * - am: Ammo
+ * - gr: Gear
+ * - ac: Accessories
+ */
 export const PRODUCTS: Product[] = [
     // HANDGUNS
     {
