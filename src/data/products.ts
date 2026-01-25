@@ -358,3 +358,17 @@ export const PRODUCTS: Product[] = [
         description: 'Standard 30rd 7.62x39mm, Black Polymer'
     }
 ];
+
+/**
+ * Mock API Call
+ * Simulates network latency (0.5 - 0.8s) before returning the catalog.
+ */
+export const getProducts = async (): Promise<Product[]> => {
+    const delay = 500 + Math.random() * 300;
+    return new Promise((resolve) => {
+        setTimeout(() => {
+            resolve(PRODUCTS);
+        }, delay);
+    });
+};
+

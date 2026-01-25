@@ -3,7 +3,7 @@ import { HomePage } from "@/pages/HomePage"
 import { ProductPage } from "@/pages/ProductPage"
 import { CategoryPage } from "@/pages/CategoryPage"
 import { CartPage } from "@/pages/CartPage"
-import { Routes, Route } from "react-router-dom"
+import { Routes, Route, Navigate } from "react-router-dom"
 import { CartProvider } from "@/context/CartContext"
 import { Toaster } from "sonner"
 
@@ -18,6 +18,7 @@ function App() {
             <Route path="/category/:category" element={<CategoryPage />} />
             <Route path="/product/:id" element={<ProductPage />} />
             <Route path="/cart" element={<CartPage />} />
+            <Route path="*" element={<Navigate to="/" replace />} />
           </Routes>
         </main>
         <footer className="border-t border-neutral-800 py-6 md:py-0">

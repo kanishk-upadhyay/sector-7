@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>Sector 7 - Redirecting</title>
+    <script type="text/javascript">
+        // Redirect all 404s to the home page to allow HashRouter to handle routing
+        var validBase = '/sector-7/';
+        if (window.location.pathname !== validBase) {
+            window.location.replace(validBase);
+        }
+    </script>
+</head>
+
+<body
+    style="background-color: #0a0a0a; color: #525252; font-family: sans-serif; display: flex; align-items: center; justify-content: center; height: 100vh; margin: 0;">
+    <p>Redirecting to Sector 7 Armory...</p>
+</body>
+
+</html>

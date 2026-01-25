@@ -1,5 +1,5 @@
 import { createContext, useContext, useState, useEffect, ReactNode } from 'react';
-import { Product } from '@/lib/api';
+import { Product } from '@/data/products';
 import { toast } from "sonner"
 
 /**

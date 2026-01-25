@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react"
-import { Product, getProducts } from "@/lib/api"
+import { Product, getProducts } from "@/data/products"
 import { ProductCard, ProductSkeleton } from "@/components/ProductCard"
 
 export function ProductGrid() {

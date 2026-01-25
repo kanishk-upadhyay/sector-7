@@ -1,4 +1,4 @@
-import { Product } from "@/lib/api"
+import { Product } from "@/data/products"
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Skeleton } from "@/components/ui/skeleton"
