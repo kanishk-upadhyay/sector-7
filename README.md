@@ -92,7 +92,7 @@ To deploy this unit to your local machine for analysis:
 This system is currently active and deployed via **GitHub Actions**.
 
 **Status**: 🟢 Operational
-**Access**: [Sector 7 Live Preview](https://kanishk-upadhyay.github.io/sector-7/)
+**Access**: [Sector 7 on Surge](https://kanishk-sector7.surge.sh/) | [GitHub Pages Mirror](https://kanishk-upadhyay.github.io/sector-7/)
 
 ---
 

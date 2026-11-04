@@ -1,27 +1,56 @@
-name: Deploy to GitHub Pages
+name: Deploy
 
 on:
   push:
     branches:
       - main
+  workflow_dispatch:
 
 permissions:
   contents: write
 
 jobs:
-  build-and-deploy:
+  deploy-github-pages:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Install and Build
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Install and Build for GitHub Pages
         run: |
           npm ci
           npm run build
 
-      - name: Deploy
+      - name: Deploy to GitHub Pages
         uses: JamesIves/github-pages-deploy-action@v4
         with:
           folder: dist
           branch: gh-pages
+
+  deploy-surge:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Install and Build for Surge
+        run: |
+          npm ci
+          npm run build -- --base=/
+          cp dist/index.html dist/200.html
+
+      - name: Deploy to Surge
+        run: |
+          npx --yes surge ./dist kanishk-sector7.surge.sh --token ${{ secrets.SURGE_TOKEN }}
+        env:
+          SURGE_LOGIN: ${{ secrets.SURGE_LOGIN }}
