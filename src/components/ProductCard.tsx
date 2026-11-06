@@ -5,6 +5,9 @@ import { Skeleton } from "@/components/ui/skeleton"
 import { Link } from "react-router-dom"
 import { useCart } from "@/context/CartContext"
 
+export const FALLBACK_PRODUCT_IMAGE =
+    "data:image/svg+xml;charset=UTF-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22600%22%20height%3D%22600%22%20viewBox%3D%220%200%20600%20600%22%3E%3Crect%20fill%3D%22%23171717%22%20width%3D%22600%22%20height%3D%22600%22%2F%3E%3Ctext%20fill%3D%22%23737373%22%20font-family%3D%22system-ui%2C%20sans-serif%22%20font-size%3D%2222%22%20font-weight%3D%22bold%22%20x%3D%2250%25%22%20y%3D%2250%25%22%20text-anchor%3D%22middle%22%20dominant-baseline%3D%22middle%22%3ESECTOR%207%20EQUIPMENT%3C%2Ftext%3E%3C%2Fsvg%3E"
+
 /**
  * ProductCard Component
  * 
@@ -27,6 +30,11 @@ export function ProductCard({ product }: { product: Product }) {
                         src={product.image}
                         alt={product.name}
                         className="h-full w-full object-contain transition-transform duration-300 group-hover:scale-105"
+                        onError={(e) => {
+                            if (e.currentTarget.src !== FALLBACK_PRODUCT_IMAGE) {
+                                e.currentTarget.src = FALLBACK_PRODUCT_IMAGE;
+                            }
+                        }}
                     />
                 </div>
                 <CardHeader className="p-4">
@@ -42,10 +50,14 @@ export function ProductCard({ product }: { product: Product }) {
                     <p className="text-sm text-neutral-400 leading-relaxed">{product.description}</p>
                 </CardContent>
                 <CardFooter className="p-4 pt-0 mt-auto">
-                    <Button className="w-full bg-neutral-100 text-neutral-900 hover:bg-neutral-200 font-medium z-10 relative" onClick={(e) => {
-                        e.preventDefault();
-                        addItem(product);
-                    }}>
+                    <Button
+                        className="w-full bg-neutral-100 text-neutral-900 hover:bg-neutral-200 font-medium z-10 relative"
+                        onClick={(e) => {
+                            e.preventDefault();
+                            e.stopPropagation();
+                            addItem(product);
+                        }}
+                    >
                         Add to Requisition
                     </Button>
                 </CardFooter>

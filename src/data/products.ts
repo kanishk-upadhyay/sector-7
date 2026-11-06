@@ -246,7 +246,7 @@ export const PRODUCTS: Product[] = [
         name: 'Federal Standard 10mm FMJ',
         category: 'Ammo',
         price: 29.79,
-        image: 'https://cdn11.bigcommerce.com/s-1kqh9qmybo/images/stencil/1280x1280/products/20093/113880/029465096397__76708.1717612481.jpg?c=2',
+        image: `${import.meta.env.BASE_URL}images/products/federal-10mm.jpg`,
         description: '180gr, Full Metal Jacket, 50Rd Box'
     },
     {
@@ -254,7 +254,7 @@ export const PRODUCTS: Product[] = [
         name: 'Sig Sauer 10mm 180gr',
         category: 'Ammo',
         price: 37.29,
-        image: 'https://cdn11.bigcommerce.com/s-1kqh9qmybo/images/stencil/1280x1280/products/3234/93321/798681516988__93683.1692714852.jpg?c=2',
+        image: `${import.meta.env.BASE_URL}images/products/sigsauer-10mm.jpg`,
         description: 'Full Metal Jacket, 50rd Box'
     },
     {

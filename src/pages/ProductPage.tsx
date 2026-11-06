@@ -6,6 +6,7 @@ import { Skeleton } from "@/components/ui/skeleton"
 import { Badge } from "@/components/ui/badge"
 import { Shield, Truck, RotateCcw } from "lucide-react"
 import { useCart } from "@/context/CartContext"
+import { FALLBACK_PRODUCT_IMAGE } from "@/components/ProductCard"
 
 export function ProductPage() {
     const { addItem } = useCart()
@@ -40,6 +41,11 @@ export function ProductPage() {
                         src={product.image}
                         alt={product.name}
                         className="h-full w-full object-contain"
+                        onError={(e) => {
+                            if (e.currentTarget.src !== FALLBACK_PRODUCT_IMAGE) {
+                                e.currentTarget.src = FALLBACK_PRODUCT_IMAGE;
+                            }
+                        }}
                     />
                 </div>
 

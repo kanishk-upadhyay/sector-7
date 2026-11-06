@@ -2,9 +2,17 @@ import { useCart } from "@/context/CartContext"
 import { Button } from "@/components/ui/button"
 import { Link } from "react-router-dom"
 import { Trash2, Plus, Minus } from "lucide-react"
+import { FALLBACK_PRODUCT_IMAGE } from "@/components/ProductCard"
+import { toast } from "sonner"
 
 export function CartPage() {
     const { items, removeItem, updateQuantity, cartTotal, clearCart } = useCart()
+
+    const handleCheckout = () => {
+        const orderId = `SEC7-${Math.floor(100000 + Math.random() * 900000)}`
+        toast.success(`Requisition submitted successfully. Ref #${orderId}`)
+        clearCart()
+    }
 
     if (items.length === 0) {
         return (
@@ -33,6 +41,11 @@ export function CartPage() {
                                     src={item.image}
                                     alt={item.name}
                                     className="h-full w-full object-contain"
+                                    onError={(e) => {
+                                        if (e.currentTarget.src !== FALLBACK_PRODUCT_IMAGE) {
+                                            e.currentTarget.src = FALLBACK_PRODUCT_IMAGE
+                                        }
+                                    }}
                                 />
                             </div>
 
@@ -107,7 +120,7 @@ export function CartPage() {
                             </div>
                         </div>
 
-                        <Button className="w-full bg-neutral-100 text-neutral-900 hover:bg-neutral-200 font-bold" onClick={() => alert("Checkout functionality coming soon via Sector 7 Logistics.")}>
+                        <Button className="w-full bg-neutral-100 text-neutral-900 hover:bg-neutral-200 font-bold" onClick={handleCheckout}>
                             Proceed to Checkout
                         </Button>
                     </div>
