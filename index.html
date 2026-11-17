@@ -2,9 +2,32 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/png" href="/src/assets/logo.png" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>store</title>
+    <title>Sector 7 Logistics — Advanced Tactical Requisitions</title>
+    <meta name="description" content="Next-generation e-commerce platform for tactical requisitions, handguns, rifles, ammunition, and mil-spec gear." />
+    <meta name="theme-color" content="#0a0a0a" />
+    <link rel="icon" type="image/png" href="./logo.png" />
+
+    <!-- Open Graph / Social -->
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Sector 7 Logistics — Advanced Tactical Requisitions" />
+    <meta property="og:description" content="Professional-grade tactical equipment and requisition platform for modern operators." />
+    <meta property="og:image" content="./logo.png" />
+    <meta name="twitter:card" content="summary_large_image" />
+
+    <!-- Single Page Apps for GitHub Pages redirect decode -->
+    <script type="text/javascript">
+      (function(l) {
+        if (l.search[1] === '/' ) {
+          var decoded = l.search.slice(1).split('&').map(function(s) { 
+            return s.replace(/~and~/g, '&')
+          }).join('?');
+          window.history.replaceState(null, null,
+              l.pathname.slice(0, -1) + decoded + l.hash
+          );
+        }
+      }(window.location))
+    </script>
   </head>
   <body>
     <div id="root"></div>

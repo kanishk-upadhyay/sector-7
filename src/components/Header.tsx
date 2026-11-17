@@ -11,8 +11,9 @@ import { cn } from "@/lib/utils"
 import React, { useState } from "react"
 import { Link } from "react-router-dom"
 import { Button } from "@/components/ui/button"
-import { Menu, X } from "lucide-react"
+import { Menu, X, ShoppingCart } from "lucide-react"
 import { HEADER_LINKS } from "@/config/navigation"
+import logoImg from "@/assets/logo.png"
 
 import { useCart } from "@/context/CartContext"
 
@@ -21,9 +22,12 @@ export function Header() {
     const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
 
     return (
-        <header className="sticky top-0 z-50 w-full border-b bg-neutral-950 text-neutral-50 border-neutral-800">
+        <header className="sticky top-0 z-50 w-full border-b bg-neutral-950/95 backdrop-blur-md text-neutral-50 border-neutral-800">
             <div className="container flex h-16 items-center px-4 md:px-6">
-                <Link to="/" className="mr-6 flex items-center space-x-2">
+                <Link to="/" className="mr-6 flex items-center space-x-2.5 group">
+                    <div className="w-8 h-8 rounded bg-neutral-900 border border-neutral-700/80 flex items-center justify-center overflow-hidden p-0.5 group-hover:border-neutral-500 transition-colors">
+                        <img src={logoImg} alt="Sector 7" className="w-full h-full object-contain" />
+                    </div>
                     <span className="text-xl font-bold tracking-tighter uppercase text-neutral-100">
                         Sector<span className="text-neutral-500">7</span>
                     </span>
@@ -68,24 +72,41 @@ export function Header() {
                     </NavigationMenu>
                 </div>
 
-                <div className="ml-auto flex items-center space-x-4">
-                    <div className="hidden md:flex items-center space-x-4">
-                        <Button variant="ghost" className="text-neutral-400 hover:text-neutral-100 hover:bg-transparent">
-                            Login
-                        </Button>
+                <div className="ml-auto flex items-center space-x-2 md:space-x-4">
+                    <div className="hidden md:flex items-center space-x-3">
+                        <div className="flex items-center gap-1.5 px-2.5 py-1 rounded-md border border-neutral-800 bg-neutral-900/60 text-xs font-mono text-neutral-300">
+                            <span className="w-1.5 h-1.5 rounded-full bg-emerald-500" />
+                            SYS: READY
+                        </div>
                         <Link to="/cart">
-                            <Button className="bg-neutral-100 text-neutral-900 hover:bg-neutral-200">
+                            <Button className="bg-neutral-100 text-neutral-900 hover:bg-neutral-200 font-medium">
+                                <ShoppingCart className="w-4 h-4 mr-1.5" />
                                 Cart ({itemCount})
                             </Button>
                         </Link>
                     </div>
 
+                    {/* Mobile Cart Action */}
+                    <Link
+                        to="/cart"
+                        className="md:hidden relative p-2 text-neutral-300 hover:text-white rounded-md hover:bg-neutral-800 transition-colors"
+                        aria-label="Requisition Cart"
+                    >
+                        <ShoppingCart className="w-5 h-5" />
+                        {itemCount > 0 && (
+                            <span className="absolute -top-1 -right-1 flex h-4 min-w-4 items-center justify-center rounded-full bg-neutral-100 px-1 text-xs font-mono font-bold text-neutral-950">
+                                {itemCount}
+                            </span>
+                        )}
+                    </Link>
+
                     {/* Mobile Menu Toggle */}
                     <button
-                        className="md:hidden text-neutral-300 hover:text-white"
+                        className="md:hidden p-2 text-neutral-300 hover:text-white rounded-md hover:bg-neutral-800 transition-colors"
                         onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+                        aria-label={mobileMenuOpen ? "Close menu" : "Open menu"}
                     >
-                        {mobileMenuOpen ? <X /> : <Menu />}
+                        {mobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
                     </button>
                 </div>
             </div>
@@ -121,9 +142,11 @@ export function Header() {
                         </div>
                     ))}
                     <div className="pt-4 border-t border-neutral-800 flex flex-col space-y-3">
-                        <Button variant="ghost" className="w-full justify-start text-neutral-400">Login</Button>
                         <Link to="/cart" onClick={() => setMobileMenuOpen(false)}>
-                            <Button className="w-full bg-neutral-100 text-neutral-900">Cart ({itemCount})</Button>
+                            <Button className="w-full bg-neutral-100 text-neutral-900 font-medium justify-center">
+                                <ShoppingCart className="w-4 h-4 mr-2" />
+                                View Requisition ({itemCount})
+                            </Button>
                         </Link>
                     </div>
                 </div>

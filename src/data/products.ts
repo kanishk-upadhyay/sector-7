@@ -1,4 +1,17 @@
 /**
+ * Technical Blueprint & Ballistics Specification
+ */
+export interface ProductBlueprint {
+    muzzleVelocity?: string;
+    effectiveRange?: string;
+    barrelLength?: string;
+    twistRate?: string;
+    action?: string;
+    feedSystem?: string;
+    attachmentSlots: string[];
+}
+
+/**
  * Product Data Definition
  * Represents a single item in the store inventory.
  */
@@ -16,18 +29,92 @@ export interface Product {
     description: string;
     /** Optional external link to source */
     link?: string;
+    /** Equipment weight in Kilograms */
+    weightKg: number;
+    /** Munition Caliber compatibility (e.g., 9mm Luger, 5.56 NATO) */
+    caliber?: string;
+    /** Hardware Manufacturer / Brand */
+    manufacturer: string;
+    /** Tactical Inventory Readiness */
+    inStock: boolean;
+    /** Ballistic blueprint & schematic specifications */
+    blueprint?: ProductBlueprint;
 }
 
-/**
- * Static Product Catalog
- * Sourced from Impact Guns. ID prefix indicates category:
- * - hg: Handguns
- * - rf: Rifles
- * - am: Ammo
- * - gr: Gear
- * - ac: Accessories
- */
-export const PRODUCTS: Product[] = [
+export function enrichProduct(raw: { id: string; name: string; category: string; price: number; image: string; description: string; link?: string; weightKg?: number; caliber?: string; manufacturer?: string; inStock?: boolean; blueprint?: ProductBlueprint }): Product {
+    const text = `${raw.name} ${raw.description}`.toLowerCase();
+    
+    // Caliber detection
+    let caliber: string | undefined = raw.caliber;
+    if (!caliber) {
+        if (text.includes("10mm")) caliber = "10mm Auto";
+        else if (text.includes("45 acp") || text.includes(".45 acp")) caliber = ".45 ACP";
+        else if (text.includes("9mm")) caliber = "9mm Luger";
+        else if (text.includes("5.56") || text.includes("223") || text.includes("300 bo")) caliber = "5.56 NATO";
+        else if (text.includes("308") || text.includes("7.62x51")) caliber = ".308 Win";
+        else if (text.includes("7.62x39") || text.includes("ak-47") || text.includes("ak47")) caliber = "7.62x39mm";
+        else if (text.includes("22 wmr")) caliber = ".22 WMR";
+        else if (text.includes("22lr") || text.includes("22 lr")) caliber = ".22 LR";
+        else if (text.includes("5.7x28")) caliber = "5.7x28mm";
+        else if (text.includes("12 gauge") || text.includes("12ga")) caliber = "12 Gauge";
+    }
+
+    // Weight calculation
+    let weightKg = raw.weightKg;
+    if (!weightKg) {
+        if (raw.category === "Handguns") weightKg = 1.05;
+        else if (raw.category === "Rifles") weightKg = 3.65;
+        else if (raw.category === "Ammo") weightKg = 0.85;
+        else if (raw.category === "Gear") weightKg = 1.40;
+        else weightKg = 0.35;
+    }
+
+    // Manufacturer extraction
+    let manufacturer = raw.manufacturer;
+    if (!manufacturer) {
+        if (raw.name.startsWith("Smith & Wesson")) manufacturer = "Smith & Wesson";
+        else if (raw.name.startsWith("Springfield")) manufacturer = "Springfield Armory";
+        else if (raw.name.startsWith("CZ")) manufacturer = "CZ-USA";
+        else if (raw.name.startsWith("Diamondback")) manufacturer = "Diamondback";
+        else if (raw.name.startsWith("ATI")) manufacturer = "ATI Firearms";
+        else if (raw.name.startsWith("Girsan")) manufacturer = "Girsan";
+        else if (raw.name.startsWith("FN")) manufacturer = "FN Herstal";
+        else if (raw.name.startsWith("Mission First")) manufacturer = "Mission First Tactical";
+        else if (raw.name.startsWith("ProMag")) manufacturer = "ProMag";
+        else if (raw.name.startsWith("Real Avid") || raw.name.startsWith("REAL AVID")) manufacturer = "Real Avid";
+        else if (raw.name.startsWith("Walkers")) manufacturer = "Walkers";
+        else if (raw.name.startsWith("3M") || raw.name.startsWith("Peltor")) manufacturer = "3M Peltor";
+        else manufacturer = "Sector 7 Defense";
+    }
+
+    // Blueprint generation
+    let blueprint: ProductBlueprint | undefined = raw.blueprint;
+    if (!blueprint && (raw.category === "Handguns" || raw.category === "Rifles")) {
+        const isRifle = raw.category === "Rifles";
+        blueprint = {
+            muzzleVelocity: isRifle ? "940 m/s (3,084 fps)" : "365 m/s (1,198 fps)",
+            effectiveRange: isRifle ? "550 m (600 yd)" : "50 m (55 yd)",
+            barrelLength: isRifle ? '16.0" (406mm)' : '4.5" (114mm)',
+            twistRate: isRifle ? '1:7" Right Hand' : '1:10" Right Hand',
+            action: isRifle ? "Direct Gas Impingement / Semi-Automatic" : "Short Recoil / Striker-Fired",
+            feedSystem: isRifle ? "MIL-SPEC STANAG Box Magazine" : "Detachable Double-Stack Magazine",
+            attachmentSlots: isRifle
+                ? ["Picatinny Top Rail (MIL-STD-1913)", "M-LOK Forend Rail", "Threaded Muzzle 1/2x28 TPI", "QD Sling Swivel Sockets"]
+                : ["Optic Ready Slide Cut (RMR Footprint)", "Tactical Accessory Rail (Picatinny)", "Threaded Barrel Option", "Reversible Magazine Catch"]
+        };
+    }
+
+    return {
+        ...raw,
+        weightKg,
+        caliber,
+        manufacturer,
+        inStock: raw.inStock ?? true,
+        blueprint
+    };
+}
+
+const RAW_PRODUCTS = [
     // HANDGUNS
     {
         id: 'hg-1',
@@ -359,12 +446,14 @@ export const PRODUCTS: Product[] = [
     }
 ];
 
+export const PRODUCTS: Product[] = RAW_PRODUCTS.map(enrichProduct);
+
 /**
  * Mock API Call
- * Simulates network latency (0.5 - 0.8s) before returning the catalog.
+ * Simulates network latency (0.3 - 0.5s) before returning the catalog.
  */
 export const getProducts = async (): Promise<Product[]> => {
-    const delay = 500 + Math.random() * 300;
+    const delay = 300 + Math.random() * 200;
     return new Promise((resolve) => {
         setTimeout(() => {
             resolve(PRODUCTS);

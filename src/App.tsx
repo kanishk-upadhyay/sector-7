@@ -9,11 +9,11 @@ import { Toaster } from "sonner"
 import { useEffect } from "react"
 
 function App() {
-  const { pathname } = useLocation();
+  const { pathname } = useLocation()
 
   useEffect(() => {
-    window.scrollTo(0, 0);
-  }, [pathname]);
+    window.scrollTo(0, 0)
+  }, [pathname])
 
   return (
     <CartProvider>
@@ -28,10 +28,19 @@ function App() {
             <Route path="*" element={<Navigate to="/" replace />} />
           </Routes>
         </main>
-        <footer className="border-t border-neutral-800 py-6 md:py-0">
-          <div className="container flex flex-col items-center justify-between gap-4 md:h-24 md:flex-row px-4 md:px-6">
-            <p className="text-center text-sm leading-loose text-neutral-400 md:text-left">
-              Built by Sector 7 Logistics. Tactical Mockup v1.0.
+        <footer className="border-t border-neutral-800 py-8 bg-neutral-950">
+          <div className="container flex flex-col md:flex-row items-center justify-between gap-4 px-4 md:px-6">
+            <div className="flex flex-col sm:flex-row items-center gap-2 sm:gap-4 text-center sm:text-left">
+              <span className="text-xs font-mono font-bold tracking-wider uppercase text-neutral-300">
+                Sector 7 Logistics
+              </span>
+              <span className="hidden sm:inline text-neutral-700">|</span>
+              <p className="text-xs text-neutral-400 font-mono">
+                Advanced Tactical Requisition Architecture v1.0
+              </p>
+            </div>
+            <p className="text-xs text-neutral-400 font-mono text-center md:text-right">
+              © {new Date().getFullYear()} Kanishk Upadhyay. All rights reserved.
             </p>
           </div>
         </footer>

@@ -1,21 +1,29 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 
 <head>
     <meta charset="utf-8">
-    <title>Sector 7 - Redirecting</title>
+    <title>Sector 7 Logistics — Requisition Protocol</title>
     <script type="text/javascript">
-        // Redirect all 404s to the home page to allow HashRouter to handle routing
-        var validBase = '/sector-7/';
-        if (window.location.pathname !== validBase) {
-            window.location.replace(validBase);
-        }
+        // Single Page Apps for GitHub Pages
+        // MIT License
+        // https://github.com/rafgraph/spa-github-pages
+        var pathSegmentsToKeep = 1;
+
+        var l = window.location;
+        l.replace(
+            l.protocol + '//' + l.hostname + (l.port ? ':' + l.port : '') +
+            l.pathname.split('/').slice(0, 1 + pathSegmentsToKeep).join('/') + '/?/' +
+            l.pathname.slice(1).split('/').slice(pathSegmentsToKeep).join('/').replace(/&/g, '~and~') +
+            (l.search ? '&' + l.search.slice(1).replace(/&/g, '~and~') : '') +
+            l.hash
+        );
     </script>
 </head>
 
 <body
-    style="background-color: #0a0a0a; color: #525252; font-family: sans-serif; display: flex; align-items: center; justify-content: center; height: 100vh; margin: 0;">
-    <p>Redirecting to Sector 7 Armory...</p>
+    style="background-color: #0a0a0a; color: #737373; font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace; display: flex; align-items: center; justify-content: center; height: 100vh; margin: 0;">
+    <p>REDIRECTING_REQUISITION_PROTOCOL...</p>
 </body>
 
 </html>
