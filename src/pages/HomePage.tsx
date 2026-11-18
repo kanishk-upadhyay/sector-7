@@ -2,7 +2,8 @@ import { Button } from "@/components/ui/button"
 import { ProductGrid } from "@/components/ProductGrid"
 import { Link } from "react-router-dom"
 import { ArrowRight, Crosshair, ShieldCheck } from "lucide-react"
-import heroBannerImg from "@/assets/hero-banner.jpg"
+import heroBannerWebp from "@/assets/hero-banner.webp"
+import heroBannerJpg from "@/assets/hero-banner.jpg"
 
 const TELEMETRY_FEED = [
     { code: "STANAG 4694", text: "NATO Accessory Rail & Weapon Architecture Certified" },
@@ -35,11 +36,15 @@ export function HomePage() {
             <section className="relative min-h-[560px] md:min-h-[620px] flex items-center justify-center overflow-hidden bg-neutral-950 border-b border-neutral-800">
                 {/* High-Resolution Hero Banner Image with Multi-Stop Vignette */}
                 <div className="absolute inset-0 z-0">
-                    <img
-                        src={heroBannerImg}
-                        alt="Sector 7 Armory Workshop"
-                        className="w-full h-full object-cover object-center opacity-45 transform scale-105 transition-transform duration-1000"
-                    />
+                    <picture className="w-full h-full">
+                        <source srcSet={heroBannerWebp} type="image/webp" />
+                        <img
+                            src={heroBannerJpg}
+                            alt="Sector 7 Armory Workshop"
+                            className="w-full h-full object-cover object-center opacity-45 transform scale-105 transition-transform duration-1000"
+                            loading="eager"
+                        />
+                    </picture>
                     <div className="absolute inset-0 bg-gradient-to-t from-neutral-950 via-neutral-950/70 to-neutral-950/80" />
                     <div className="absolute inset-0 bg-radial-vignette opacity-80" />
                 </div>

@@ -13,7 +13,7 @@ import { Link } from "react-router-dom"
 import { Button } from "@/components/ui/button"
 import { Menu, X, ShoppingCart } from "lucide-react"
 import { HEADER_LINKS } from "@/config/navigation"
-import logoImg from "@/assets/logo.png"
+import logoImg from "@/assets/logo.webp"
 
 import { useCart } from "@/context/CartContext"
 
